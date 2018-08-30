@@ -3,11 +3,11 @@
 var express = require("express");
 
 var app = express(); //express is lightweight web framework package.
-                      //It is responsible for directing routes to different html web pages.
-                      
-var mysql = require("mysql"); //The is the data base we will using. You can't go wrong with this.
+                      //It is responsible for directing routes to different html web pages(as well as .ejs files).
 
-var body_parser = require("body-parser"); //It is middleware. It allows you to read the user input here.
+var mysql = require("mysql"); //The is the database we will be using. You can't go wrong with this.
+
+var body_parser = require("body-parser"); //It is a middleware. It allows you to read the user's input here.
 
 
 //--------setting up the packages----------
