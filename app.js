@@ -17,6 +17,7 @@ var body_parser = require("body-parser"); //It is a middleware. It allows you to
 app.set("view engine","ejs"); //ejs is a node package. It stands for embedded Javascript. It allows you to use
                               //javascript code to generate html code on the fly.
 
+//---------connecting mysql----------
 
 
 //--------Routes-------------
