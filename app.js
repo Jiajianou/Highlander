@@ -21,15 +21,58 @@ app.set("view engine","ejs"); //ejs is a node package. It stands for embedded Ja
 
 
 //--------Routes-------------
+//1.Index
+//2.Sign Up
+//3.Sign In
+//4.User page
+//5.Explore
+//6.Post Detail
 
   //===Index Route===
-app.get("/", function(req, res){                      //Home page. Or Index page. This is the root route.
-  console.log("someone has made a request call");
+app.get("/", function(req, res){
   res.render("index");
 
 });
 
   //===Sign up Route===
+
+  app.get("/sign_up", function(req, res){
+    res.render("sign_up");
+
+  });
+
+
+  //-----Sign in--------
+
+  app.get("/sign_in", function(req, res){
+    res.render("sign_in");
+
+  });
+
+
+  //--------User page----------
+
+  app.get("/user_page", function(req, res){
+    res.render("user_page");
+
+  });
+
+
+  //-----------Explore-----------
+
+  app.get("/explore", function(req, res){
+    res.render("explore");
+
+  });
+
+  //------------Post Detail----------
+
+  app.get("/post_detail", function(req, res){
+    res.render("post_detail");
+
+  });
+
+
 
 
 
