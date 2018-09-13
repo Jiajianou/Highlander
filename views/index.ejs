@@ -13,12 +13,14 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 .index-image{width:410px; height:300px; object-fit:cover;}
 .w3-container{width:425px; height:50px;}
 
+#logo {color:black}
+
 </style>
 <body class="w3-light-grey w3-content" style="max-width:1600px">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-bar-block w3-white w3-animate-left w3-text-grey w3-collapse w3-top w3-center" style="z-index:3;width:300px;font-weight:bold" id="mySidebar"><br>
-  <h3 class="w3-padding-64 w3-center"><b>Highlanders<br></b></h3>
+  <h3 id = "logo" class="w3-padding-64 w3-center"><b>Highlander<br></b></h3>
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-hide-large">CLOSE</a>
   <a href="/explore" onclick="w3_close()" class="w3-bar-item w3-button">Explore</a>
   <a href="/sign_in" onclick="w3_close()" class="w3-bar-item w3-button">Sign In</a>
@@ -45,7 +47,7 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <div class="w3-row-padding w3-margin-top">
       <div class="w3-third">
         <div class="w3-card">
-          <img href = "/post_detail"class= "index-image" src="https://images.pexels.com/photos/532803/pexels-photo-532803.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <a href = "/post_detail"><img  class="index-image" src="https://images.pexels.com/photos/532803/pexels-photo-532803.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"></a>
           <div class="w3-container">
             <h5>Backpacking at the Park</h5>
           </div>
@@ -54,7 +56,7 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
       <div class="w3-third">
         <div class="w3-card">
-          <img class= "index-image" src="https://images.pexels.com/photos/92081/pexels-photo-92081.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" >
+          <img href = "/post_detail" class= "index-image" src="https://images.pexels.com/photos/92081/pexels-photo-92081.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" >
           <div class="w3-container">
             <h5>Mountain Top</h5>
           </div>
@@ -63,7 +65,7 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
       <div class="w3-third">
         <div class="w3-card">
-          <img class= "index-image" src="https://images.pexels.com/photos/630758/bench-forest-nature-park-630758.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" >
+          <img href = "/post_detail" class= "index-image" src="https://images.pexels.com/photos/630758/bench-forest-nature-park-630758.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" >
           <div class="w3-container">
             <h5>National Park</h5>
           </div>
