@@ -82,7 +82,7 @@ app.get("/", function(req, res){
 //--------server listener---------
 
 
-app.listen(3001, function(){                //It is set up to run locally for now.
+app.listen(process.env.PORT || 3001, function(){                //It is set up to run locally for now.
   console.log("The server is running");     //To access, use your local network IP + the port number
 });                                         //It should look something like this.   000.000.00.00:3001
                                             //Once you have Node Js installed on your machine, use terminal
