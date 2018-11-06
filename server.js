@@ -1,7 +1,7 @@
 
 //-------importing the required packages-------
 var express = require("express");   //lightweight routing framework
-var pg = require('pg'); //postgres middleware for node js
+const {Pool,Client} = require('pg'); //postgres middleware for node js
 var body_parser = require("body-parser"); //it parses inputs from post request
 var session = require("express-session");
 
@@ -16,6 +16,7 @@ var session = require("express-session");
 
 
 //-------------------------------------------Initialization----------------------------------------------
+
 //initiate express
 var app = express();
 //set view engine to embedded javascript extension (.ejs)
@@ -33,54 +34,28 @@ app.use(session(
   }
 ));
 
+//----------Time stamp --
+
+var time = new Date();
+var now = time.getFullYear() + "-" + time.getMonth() + "-" + time.getDate() + "-" + time.getHours() + "-" + time.getMinutes();
+console.log(now);
+
+
 //-------------------------------------------Database----------------------------------
 
-const pool = new Pool({
-  user: 'j',
-  host: 'localhost',
-  database: 'highlander',
-  password: 'j',
-  port: 5432
-});
 
-const client = new Client({
-  user: 'j',
-  host: 'localhost',
-  database: 'highlander',
-  password: 'j',
-  port: 5432
-});
+var database_config = {
+    user: 'j',
+    host: 'localhost',
+    database: 'highlander',
+    password: 'strong_pass',
+    port: 5432
+};
+const pool = new Pool(database_config);
+
+const client = new Client(database_config);
 
 
-
-// pool.connect(function(err,client,done){
-//   if(err) throw err;
-//
-//   client.query('select * from users where id = 1', function(err, res){
-//
-//
-//     if(err) {
-//       console.log(err);
-//     } else {
-//       console.log(res.rows);
-//     }
-//
-//
-//   });
-//   done();
-// });
-
-(async function(){
-  const client= await pool.connect();
-  try{
-    const res = await client.query('select * from users where id = $1', [1]);
-    console.log(res.rows);
-
-  }finally{
-    client.release();
-
-  }
-})().catch(e => console.log(e.stack));
 
 //-----------------------------------------------Helper functions-----------------------------------
 
@@ -92,27 +67,81 @@ const client = new Client({
 //   } else return false;
 // }
 
-//authenticate
-
-//isLoggedIn
-function isLoggedIn(req, res, next){
-
-    if(req.isAuthenticated()){
-        return next();
-    }
-
-    res.redirect("/");
-
-}
-
-
 
 //-----------------------------------------------Routes---------------------------------------------
+
+
+
+
+  //-------Home page or Index --------
+
+
+  app.get("/", function(req, res){
+    //1.Get post image and title from database
+    //2.Convert them into javascript objects;
+    //3.Pass these objects to the route, and use ejs to display the data.
+    var query_string = 'select * from thumbnails';
+
+    pool.connect(function(err,client,done){
+
+      if(err) throw err;
+
+      client.query(query_string,function(err, result){
+        //inside query callback function:
+        //console.log(typeof result.rows);
+
+        //todo: limit to 9 posts.
+        var posts = result.rows;
+
+        res.render("index", posts);
+
+
+
+      }
+
+      );
+      done();
+
+    });
+
+  });
 
   //-----Sign in--------
 
   app.get("/sign_in", function(req, res){
     res.render("sign_in");
+
+  });
+
+  app.post("/sign_in", function(req, res){
+
+    var query_string = 'SELECT user_name, password FROM users WHERE user_name = $1 AND password = $2';
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string, [req.body.username, req.body.password], function(err, result){
+
+        console.log(result.rows);
+        if(result.rows.length !== 0) {
+          var current_user = {id:req.body.username, password:req.body.password};
+          req.session.user = current_user;
+          res.redirect("/");
+        } else res.redirect("/sign_in");
+
+      });
+
+      done();
+    });
+
+
+
+
+
+
+
+
+
 
   });
 
@@ -128,9 +157,67 @@ function isLoggedIn(req, res, next){
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
+    var question = "How tall is my favorite wine glass";
+    var answer = "8.2";
+
+    var new_user = {id: username, password:password};
+
+    req.session.user = new_user;
+
+    console.log("------This is session data------");
+    console.log(req.session.user);
+    console.log("-------End of session data-------");
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query('INSERT INTO users VALUES (DEFAULT, $1, $2, $3, $4, $5)', [username, email, password, question, answer ],  function(err, result){
 
 
+        if(err) {
+          console.log(err);
+          res.render("sign_up");
 
+        } else {
+          console.log(result.rows);
+          res.redirect("/");
+        }
+
+
+      });
+      done();
+    });
+
+  });
+
+  //--------User profile --------
+
+  app.get("/profile", function(req, res){
+
+    var username = req.session.user.id;
+    var password = req.session.user.password;
+
+    var query_string = 'SELECT user_name, password FROM users WHERE user_name = $1 AND password = $2';
+
+
+    console.log( username + "  " + password);
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string, [username, password], function(err, result){
+
+        console.log(result.rows);
+        if(result.rows.length !== 0) {
+
+          res.render("profile");
+
+        } else res.redirect("/sign_in");
+
+      });
+
+      done();
+    });
 
 
 
@@ -154,7 +241,7 @@ function isLoggedIn(req, res, next){
 
   //-----------create post-----------
 
-  app.get("/create_post", isLoggedIn, function(req,res){
+  app.get("/create_post", function(req,res){
     res.render("create_post");
   });
 
@@ -167,8 +254,9 @@ function isLoggedIn(req, res, next){
 
   //------------log out page------------
 
-  app.get("/log_out", function(req,res){
-    res.render("log_out");
+  app.get("/sign_out", function(req,res){
+    req.session.destroy();
+    res.render("sign_out");
   });
 
 
