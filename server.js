@@ -92,8 +92,11 @@ const client = new Client(database_config);
 
         //todo: limit to 9 posts.
         var posts = result.rows;
+        var first_row = posts.slice(0,3);
+        var second_row = posts.slice(3,6);
+        var third_row = posts.slice(6,9)
 
-        res.render("index", posts);
+        res.render("index", {row1:first_row,row2:second_row,row3:third_row});
 
 
 
@@ -263,14 +266,54 @@ const client = new Client(database_config);
   //-----------Explore-----------
 
   app.get("/explore", function(req, res){
-    res.render("explore");
+
+    var query_string = 'select * from map_popups';
+
+    pool.connect(function(err,client,done){
+
+      if(err) throw err;
+
+      client.query(query_string, function(err, result){
+
+        //console.log(result.rows);
+        var popups = result.rows;
+
+        res.render("explore", {popups:popups});
+
+
+      });
+      done();
+    });
+
 
   });
 
   //------------Post Detail----------
 
-  app.get("/post_detail", function(req, res){
-    res.render("post_detail");
+  app.get("/post_detail/:id", function(req, res){
+    //1.find post by req.params.id
+    //2.render post with post details and comments
+
+    console.log(req.params.id);
+
+    var query_string = 'select * from posts where post_id = $1';
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string, [req.params.id], function(err,result){
+
+        var post = result.rows[0];
+
+        console.log(post);
+
+        res.render("post_detail", {post:post});
+
+
+
+      });
+      done();
+    });
 
   });
 

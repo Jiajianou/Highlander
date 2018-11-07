@@ -16,8 +16,12 @@ create table users (
   password VARCHAR(100),
   question VARCHAR(500),
   answer VARCHAR(100),
-  created VARCHAR(30)
+  created VARCHAR(30),
+  last_active VARCHAR(30),
+  about VARCHAR(1000),
+  image VARCHAR(500)
 );
+
 
 
 create table posts (
@@ -29,14 +33,13 @@ create table posts (
   is_private boolean,
   is_free boolean,
   require_reservation boolean,
-  gps_latitude VARCHAR(50),
-  gps_logitude VARCHAR(50),
+  latitude VARCHAR(50),
+  longitude VARCHAR(50),
   up_vote INT,
   down_vote INT,
   title VARCHAR(100),
   description VARCHAR(1000),
   created VARCHAR(30)
-
 
 );
 
@@ -57,7 +60,10 @@ create table votes(
   created VARCHAR(30)
 );
 
+
 create view thumbnails as select post_id, image_1, title from posts;
+create view map_popups as select latitude, longitude, image_1, title from posts;
+create view user_info as select user_name, image, about, created, last_active from users;
 
 
 
