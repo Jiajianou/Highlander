@@ -6,13 +6,6 @@ var body_parser = require("body-parser"); //it parses inputs from post request
 var session = require("express-session");
 
 
-//--------------To-Do List-------------
-//1.post generation page
-//2.store and display image
-//3.show post location on map
-//4.home page that loads posts from database.
-//5.profile page
-//6. finish view page
 
 
 //-------------------------------------------Initialization----------------------------------------------
@@ -34,11 +27,7 @@ app.use(session(
   }
 ));
 
-//----------Time stamp --
 
-var time = new Date();
-var now = time.getFullYear() + "-" + time.getMonth() + "-" + time.getDate() + "-" + time.getHours() + "-" + time.getMinutes();
-console.log(now);
 
 
 //-------------------------------------------Database----------------------------------
@@ -58,6 +47,12 @@ const client = new Client(database_config);
 
 
 //-----------------------------------------------Helper functions-----------------------------------
+
+//----------Time stamp --
+
+var time = new Date();
+var now = time.getFullYear() + "-" + time.getMonth() + "-" + time.getDate() + "-" + time.getHours() + "-" + time.getMinutes();
+console.log(now);
 
 // function is_username_taken(username){
 //
@@ -129,7 +124,7 @@ const client = new Client(database_config);
         if(result.rows.length !== 0) {
           var current_user = {id:req.body.username, password:req.body.password};
           req.session.user = current_user;
-          res.redirect("/");
+          res.redirect("/profile");
         } else res.redirect("/sign_in");
 
       });
@@ -160,12 +155,16 @@ const client = new Client(database_config);
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
-    var question = "How tall is my favorite wine glass";
-    var answer = "8.2";
+    var question = req.body.question;
+    var answer = req.body.answer;
+    var about = "Introduce your self";
+    var image = "https://marketplace.canva.com/MAC1K25B5-k/1/screen/canva-icon%2C-people%2C-person%2C-team%2C-human%2C-business%2C-women-MAC1K25B5-k.jpg";
 
     var new_user = {id: username, password:password};
 
     req.session.user = new_user;
+
+    var query_string = 'INSERT INTO users VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9)';
 
     console.log("------This is session data------");
     console.log(req.session.user);
@@ -174,7 +173,7 @@ const client = new Client(database_config);
     pool.connect(function(err,client,done){
       if(err) throw err;
 
-      client.query('INSERT INTO users VALUES (DEFAULT, $1, $2, $3, $4, $5)', [username, email, password, question, answer ],  function(err, result){
+      client.query(query_string, [username, email, password, question, answer, now, now, about, image],  function(err, result){
 
 
         if(err) {
@@ -183,7 +182,7 @@ const client = new Client(database_config);
 
         } else {
           console.log(result.rows);
-          res.redirect("/");
+          res.redirect("/profile");
         }
 
 
@@ -200,7 +199,7 @@ const client = new Client(database_config);
     var username = req.session.user.id;
     var password = req.session.user.password;
 
-    var query_string = 'SELECT user_name, password FROM users WHERE user_name = $1 AND password = $2';
+    var query_string = 'SELECT * FROM users WHERE user_name = $1 AND password = $2';
 
 
     console.log( username + "  " + password);
@@ -213,7 +212,8 @@ const client = new Client(database_config);
         console.log(result.rows);
         if(result.rows.length !== 0) {
 
-          res.render("profile");
+          var user = result.rows[0];
+          res.render("profile", {user:user});
 
         } else res.redirect("/sign_in");
 
@@ -231,8 +231,29 @@ const client = new Client(database_config);
 
   //--------User page----------
 
-  app.get("/user_info_page", function(req, res){
-    res.render("user_info_page");
+  app.get("/user_info/:id", function(req, res){
+
+
+    console.log(req.params.id);
+
+    var query_string = 'select * from user_info where user_id = $1';
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string, [req.params.id], function(err,result){
+
+        var user = result.rows[0];
+
+        console.log(user);
+
+        res.render("user_info", {user:user});
+
+
+
+      });
+      done();
+    });
 
   });
 
@@ -291,8 +312,7 @@ const client = new Client(database_config);
   //------------Post Detail----------
 
   app.get("/post_detail/:id", function(req, res){
-    //1.find post by req.params.id
-    //2.render post with post details and comments
+    //need post details, user name and last active from users, and commenter' name, comment, and timestamp.
 
     console.log(req.params.id);
 

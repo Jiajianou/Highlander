@@ -95,8 +95,8 @@ INSERT INTO posts VALUES (
    '-78.221884',
    5,
    1,
-   'Vaction 1',
-   'My dream spot number 1.',
+   'Sunset Mountain Top',
+   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
    '2018-10-4-23-26'
  );
 
@@ -113,8 +113,8 @@ INSERT INTO posts VALUES (
     '-78.43749',
     3,
     1,
-    'vacation 2',
-    'My dream spot number 2.',
+    'Goatless Grass Field',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     '2018-10-4-23-27'
   );
 
@@ -131,8 +131,8 @@ INSERT INTO posts VALUES (
      '-78.387451',
      5,
      1,
-     'vacation 3',
-     'My dream spot number 3.',
+     'Secret Golf Course',
+     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
      '2018-10-4-23-28'
    );
 
@@ -149,8 +149,8 @@ INSERT INTO posts VALUES (
       '-77.952118',
       5,
       1,
-      'vacation 4',
-      'My dream spot number 4.',
+      'Blue River',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       '2018-10-4-23-29'
     );
 
@@ -167,8 +167,8 @@ INSERT INTO posts VALUES (
        '-76.890264',
        5,
        1,
-       'vacation 5',
-       'My dream spot number 5.',
+       'Tropical Beach',
+       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
        '2018-10-4-23-30'
      );
 
@@ -185,8 +185,8 @@ INSERT INTO posts VALUES (
         ' -76.516728',
         5,
         1,
-        'vacation 6',
-        'My dream spot number 6.',
+        'Taking a Picture of Me Taking a Picture',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
         '2018-10-4-23-31'
       );
 
@@ -203,8 +203,8 @@ INSERT INTO posts VALUES (
          '-79.49707',
          5,
          1,
-         'vacation 7',
-         'My dream spot number 7.',
+         'Mountain Drifting',
+         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
          '2018-10-4-23-33'
        );
 
@@ -221,8 +221,8 @@ INSERT INTO posts VALUES (
           ' -81.17152',
           5,
           1,
-          'vacation 8',
-          'My dream spot number 8.',
+          'Generic Sunset',
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
           '2018-10-4-23-40'
         );
 
@@ -239,8 +239,8 @@ INSERT INTO posts VALUES (
            '-81.595459',
            5,
            1,
-           'vacation 9',
-           'My dream spot number 9.',
+           'West Coast Beach',
+           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
            '2018-10-4-23-41'
          );
 
@@ -257,8 +257,8 @@ INSERT INTO posts VALUES (
             '-81.166992',
             5,
             1,
-            'vacation 10',
-            'My dream spot number 10.',
+            'My Vacation Number 10',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             '2018-10-4-23-45'
           );
 
@@ -320,7 +320,7 @@ INSERT INTO posts VALUES (
  );
 
 
- 
+
 --***********************votes
  INSERT INTO votes VALUES(
    DEFAULT,

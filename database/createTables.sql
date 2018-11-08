@@ -62,9 +62,10 @@ create table votes(
 
 
 create view thumbnails as select post_id, image_1, title from posts;
-create view map_popups as select latitude, longitude, image_1, title from posts;
-create view user_info as select user_name, image, about, created, last_active from users;
-
+create view map_popups as select post_id, latitude, longitude, image_1, title from posts;
+create view user_info as select user_id, user_name, image, about, created, last_active from users;
+create view post_detail as select * from users natural join posts;
+create view post_comments as select A.post_id, B.c_id, B.comment, B.user_id, B.created from posts as A, comments as B where A.post_id = B.post_id;
 
 
 

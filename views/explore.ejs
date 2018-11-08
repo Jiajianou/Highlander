@@ -46,7 +46,35 @@
 
   <body>
 
-    <h1>Explore</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">Highlander</a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+
+          <li class="nav-item active">
+            <a class="nav-link" href="/explore">Explore <span class="sr-only">(current)</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sign_in">Sign In</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sign_up">Sign Up</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+
+        </ul>
+      </div>
+  </nav>
 
 
 
@@ -71,10 +99,11 @@
                   <div class="row">
                     <div class="col">
 
-                      <img src ="<%= popup.image_1%>" class="img-thumbnail">
+                      <a href="/post_detail/<%-popup.post_id%>"><img src ="<%= popup.image_1%>" class="img-thumbnail"></a>
                     </div>
                     <div class="col">
-                      <h5> <%= popup.title %> </h5>
+
+                      <p><%= popup.title %></p>
 
                     </div>
 
