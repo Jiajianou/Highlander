@@ -29,10 +29,63 @@
 
     <style type="text/css">
 
-    .img-thumbnail {width:140px;height:100px;}
+
     #post_box {
+      width:300px;
       height:800px;
       overflow-y: scroll;
+    }
+
+    #main{
+
+      padding-top: 10px;
+      width:1400px;
+      margin: 0 9%;
+    }
+
+    #left_column{
+      width:1400px;
+
+    }
+
+    #right_column{
+
+      width:200px;
+      margin:0 0;
+
+    }
+
+    #main_row{
+      padding-top: 20px;
+      width:1400px;
+
+    }
+
+    #nav_bar {
+      width:1400px;
+    }
+
+
+    .post_pic {
+      width:70px;
+      height:45px;
+      object-fit: cover;
+    }
+
+    #post_info {
+      font-size: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 30ch;
+
+    }
+
+    .post_row{
+      width:300px;
+      padding-top: 5px;
+
+
     }
 
 
@@ -46,7 +99,12 @@
 
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <div id="main" class="container">
+
+
+
+    <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="/">Highlander</a>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,38 +136,31 @@
 
 
 
-      <div class="row">
+      <div id="main_row" class="row">
 
-        <div class="col">
+        <div id = "left_column" class="col">
 
-          <div id="mapid" style="width: 1200px; height: 800px;"></div>
+          <div id="mapid" style="width: 1100px; height: 700px;"></div>
+
         </div>
 
 
 
 
-        <div class="col">
+        <div id="right_column" class="col">
 
           <div id="post_box" class="container">
 
             <% popups.forEach(function(popup){ %>
 
 
-                <div class="container">
-                  <div class="row">
-                    <div class="col">
 
-                      <a href="/post_detail/<%-popup.post_id%>"><img src ="<%= popup.image_1%>" class="img-thumbnail"></a>
-                    </div>
-                    <div class="col">
+                  <div class="row post_row">
 
-                      <p><%= popup.title %></p>
-
-                    </div>
-
+                      <a id="post_info" href="/post_detail/<%-popup.post_id%>"><img src ="<%= popup.image_1%>" class="rounded post_pic"><%= popup.title %></a>
                   </div>
 
-                </div>
+
 
 
           <%  }); %>
@@ -123,6 +174,10 @@
 
 
       </div>
+
+
+
+    </div>
 
 
 

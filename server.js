@@ -75,7 +75,7 @@ console.log(now);
     //1.Get post image and title from database
     //2.Convert them into javascript objects;
     //3.Pass these objects to the route, and use ejs to display the data.
-    var query_string = 'select * from thumbnails';
+    var query_string = 'select * from post_info';
 
     pool.connect(function(err,client,done){
 
@@ -314,29 +314,36 @@ console.log(now);
   app.get("/post_detail/:id", function(req, res){
     //need post details, user name and last active from users, and commenter' name, comment, and timestamp.
 
-    console.log(req.params.id);
+    var id = req.params.id;
 
-    var query_string = 'select * from posts where post_id = $1';
+    var query_string_1 = 'select * from post_info where post_id = $1';
+    var query_string_2 = 'select * from commenter where post_id = $1';
+
 
     pool.connect(function(err,client,done){
       if(err) throw err;
 
-      client.query(query_string, [req.params.id], function(err,result){
+      client.query(query_string_1,[id]).then(result_1 =>{
+        //first query
+        var post = result_1.rows[0];
 
-        var post = result.rows[0];
+        client.query(query_string_2,[id]).then(result_2 =>{
+          //second query
+          var comments = result_2.rows;
+          console.log("inside query 2:");
 
-        console.log(post);
+          res.render("post_detail", {post:post,comments:comments});
 
-        res.render("post_detail", {post:post});
+        }).catch(e => console.error(e.stack));
 
+      }).catch(e => console.error(e.stack));
 
-
-      });
       done();
+
     });
 
-  });
 
+  });
 
 
 

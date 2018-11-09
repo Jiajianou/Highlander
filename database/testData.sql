@@ -71,7 +71,7 @@ INSERT INTO users VALUES (
   '19',
   '2018-10-4-23-30',
   '2018-10-4-23-30',
-  'I like cats.'
+  'I like cats.',
   'https://images.pexels.com/photos/4602/jumping-cute-playing-animals.jpg?auto=compress&cs=tinysrgb&dpr=2&h=350'
 );
 
