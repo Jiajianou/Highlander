@@ -9,13 +9,47 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <title>Sign In</title>
+
+    <style type="text/css">
+
+
+    #main{
+      width:800px;
+    }
+
+    #nav_bar{
+
+      width:800px;
+      background-color: #8FDBF2;
+      border-radius: 10px;
+      margin: 10px 0;
+
+    }
+
+    #form{
+      width:800px;
+      border-radius: 10px;
+      margin:10px 0 ;
+      background-color: #DFECF0;
+    }
+
+    #form_group{
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    </style>
+
   </head>
+
+
+
   <body>
 
-    <div class="container">
+    <div id="main" class="container">
 
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="/">Highlander</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +77,10 @@
 
     <h1>Sign In</h1>
 
+    <div id="form" class="container">
 
-    <form action="/sign_in" method="POST">
+
+    <form id="form_group" action="/sign_in" method="POST">
 
       <div class="form-group">
         <label for="exampleFormControlInput1">User Name:</label>
@@ -64,6 +100,8 @@
       <a class="btn btn-primary" href="/" role="button">Cancel</a>
 
     </form>
+
+  </div>
 
   </div>
 

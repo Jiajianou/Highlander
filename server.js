@@ -148,6 +148,10 @@ console.log(now);
   //---------Sign Up--------
 
   app.get("/sign_up", function(req, res){
+    res.render("terms");
+  });
+
+  app.get("/sign_up_finally", function(req, res){
     res.render("sign_up");
   });
 
@@ -343,6 +347,11 @@ console.log(now);
     });
 
 
+  });
+
+
+  app.get("/terms",function(req,res){
+    res.render("terms");
   });
 
 

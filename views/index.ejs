@@ -25,6 +25,8 @@
 
   #nav_bar {
     width:1200px;
+    background-color: #8FDBF2;
+    border-radius: 10px;
   }
 
   #first_row{
@@ -87,6 +89,17 @@
      z-index: 1;
    }
 
+   .user_pic{
+     width:40px;
+     height:40px;
+     position: absolute;
+     bottom: 43px;
+     left:20px;
+     object-fit: cover;
+   }
+
+
+
 
 
 
@@ -116,7 +129,7 @@
 
 
 
-      <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="/">Highlander</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,7 +168,7 @@
 
 
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
-        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i></p>
+        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
 
       </div>
       <% }); %>
@@ -168,7 +181,7 @@
 
 
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
-        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i></p>
+        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
 
       </div>
       <% }); %>
@@ -181,7 +194,7 @@
 
 
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
-        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i></p>
+        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
 
       </div>
       <% }); %>
