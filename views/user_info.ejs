@@ -7,13 +7,119 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
-    <title>About User</title>
+
+    <title>Profile</title>
+
+    <style type="text/css">
+
+    #main{
+      width:800px;
+      margin: 0 28%;
+    }
+
+    #nav_bar{
+
+      width:800px;
+      background-color: #8FDBF2;
+      border-radius: 10px;
+      margin: 10px 0;
+
+    }
+
+    #image_div{
+
+      float: left;
+    }
+
+    #profile_pic{
+
+      width:380px;
+      height:400px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-left: 5px;
+      margin-top: 10px;
+
+
+
+    }
+
+    #right_column{
+
+
+      width:400px;
+      height:400px;
+      float: right;
+      margin-left: 5px;
+      background-color: #DFECF0;
+      border-radius: 10px;
+      margin-top: 10px;
+
+
+    }
+
+    #left_column{
+
+      margin-top: 20px;
+      width:800px;
+      float:left;
+
+      background-color: #DFECF0;
+
+    }
+
+    #info_row{
+
+
+
+    }
+
+    .post_pic{
+      width:50px;
+      height:50px;
+      margin-left: 5px;
+
+
+    }
+
+    .each_post{
+      margin-left: 10px;
+      margin-top: 8px;
+
+
+    }
+
+
+    .fa-edit{
+
+      font-size: 30px;
+      vertical-align: middle;
+
+    }
+
+    #button_group{
+
+
+    }
+
+    .btn-primary{
+      width:120px;
+      font-size: 11px;
+    }
+
+    </style>
+
   </head>
-  <body>
-    <div class="container">
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <body>
+
+
+    <div id="main">
+
+      <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="/">Highlander</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +138,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="/sign_up">Sign Up</a>
+              <a class="nav-link" href="/sign_out">Sign Out</a>
             </li>
 
             <li class="nav-item">
@@ -43,17 +149,79 @@
         </div>
     </nav>
 
-    <div class="container">
 
-      <img src="<%-user.image%>" class="img-thumbnail" />
 
-      <p><%-user.image%></p>
-      <p><%-user.user_name%></p>
-      <p><%-user.about%></p>
-      <p><%-user.created%></p>
-      <p><%-user.last_active%></p>
+    <h1>User Profile</h1>
+
+
+    <div id="image_div">
+
+      <img id="profile_pic" src="<%-user.image%>">
 
     </div>
+
+
+    <div id="right_column">
+
+
+
+        <% posts.forEach(function(post){ %>
+
+          <div class="each_post">
+            <i class="fas fa-edit"></i><a href="/post_detail/<%=post.post_id%>"><img src="<%=post.image_1%>" class="rounded post_pic"/><%=post.title%></a>
+          </div>
+
+
+        <%}); %>
+
+
+
+    </div>
+
+
+
+
+
+
+        <div id="left_column">
+
+          <div id="button_group">
+
+
+
+          <a class="btn btn-primary" href="/create_post" role="button">Create a New Post</a>
+          <a class="btn btn-primary" href="/" role="button">Edit Profile</a>
+          <a class="btn btn-primary" href="/" role="button">Change Password</a>
+
+            </div>
+
+            <div id="info_row">
+
+              <div>
+                <p>  <%- user.user_name %>  </p>
+
+              </div>
+              <div>
+                <p>  <%- user.about %>  </p>
+
+
+              </div>
+              <div >
+                <p>  <%- user.created %>  </p>
+
+              </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
 
 
     </div>

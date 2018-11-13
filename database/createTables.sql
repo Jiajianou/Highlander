@@ -32,7 +32,7 @@ create table posts (
   image_3 VARCHAR(500),
   is_private VARCHAR,
   is_free VARCHAR(15),
-  require_reservation VARCHAR(15),
+  require_registration VARCHAR(15),
   latitude VARCHAR(50),
   longitude VARCHAR(50),
   up_vote INT,
@@ -64,7 +64,7 @@ create table votes(
 create view thumbnails as select post_id, image_1, title from posts;
 create view map_popups as select post_id, latitude, longitude, image_1, title from posts;
 create view user_info as select user_id, user_name, image, about, created, last_active from users;
-create view post_info as select A.user_id,A.user_name, A.image,B.post_id, B.title, B.image_1, B.image_2, B.image_3, B.is_private,B.is_free,B.require_reservation,B.latitude,B.longitude,B.up_vote,B.down_vote,B.description,B.created from users as A, posts as B where A.user_id = B.user_id;
+create view post_info as select A.user_id,A.user_name, A.image,B.post_id, B.title, B.image_1, B.image_2, B.image_3, B.is_private,B.is_free,B.require_registration,B.latitude,B.longitude,B.up_vote,B.down_vote,B.description,B.created from users as A, posts as B where A.user_id = B.user_id;
 create view commenter as select A.user_id, A.image, A.user_name, B.post_id, B.comment, B.created from users as A, comments as B where A.user_id = B.user_id;
 
 

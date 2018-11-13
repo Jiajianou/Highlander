@@ -40,35 +40,33 @@
 
 
 
-      padding-top: 10px;
+
       width:1400px;
-      margin: 0 9%;
+      margin-left: 8%;
+      margin-top: 10px;
     }
 
     #left_column{
+      float: left;
 
-      background-color: #DFECF0;
-      border-radius: 10px;
-      width:1400px;
 
     }
 
     #right_column{
 
-      margin: 5px 5px;
-
+      margin-top: 15px;
+      width:380px;
+      height:700px;
       background-color: #DFECF0;
       border-radius: 10px;
+      float: right;
 
 
-
-      width:200px;
-      margin:0 0;
 
     }
 
     #main_row{
-      padding-top: 20px;
+
       width:1400px;
 
     }
@@ -88,7 +86,9 @@
       object-fit: cover;
     }
 
-    #post_info {
+    .post_info {
+      margin-left: 10px;
+      margin-top: 5px;
       font-size: 10px;
       white-space: nowrap;
       overflow: hidden;
@@ -99,7 +99,7 @@
 
     .post_row{
       width:300px;
-      padding-top: 5px;
+
 
 
     }
@@ -152,28 +152,28 @@
 
 
 
-      <div id="main_row" class="row">
+      <div id="main_row" >
 
-        <div id = "left_column" class="col">
+        <div id = "left_column" >
 
-          <div id="mapid" style="width: 1100px; height: 700px; margin:15px 0;"></div>
+          <div id="mapid" style="width: 1000px; height: 700px; margin:15px 0;"></div>
 
         </div>
 
 
 
 
-        <div id="right_column" class="col">
+        <div id="right_column" >
 
-          <div id="post_box" class="container">
+          <div id="post_box" >
 
             <% popups.forEach(function(popup){ %>
 
 
 
-                  <div class="row post_row">
+                  <div class="post_info">
 
-                      <a id="post_info" href="/post_detail/<%-popup.post_id%>"><img src ="<%= popup.image_1%>" class="rounded post_pic"><%= popup.title %></a>
+                      <a href="/post_detail/<%-popup.post_id%>"><img src ="<%= popup.image_1%>" class="rounded post_pic"><%= popup.title %></a>
                   </div>
 
 

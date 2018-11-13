@@ -6,6 +6,7 @@ var body_parser = require("body-parser"); //it parses inputs from post request
 var session = require("express-session");
 
 
+//// TODO: 1.user_info
 
 
 //-------------------------------------------Initialization----------------------------------------------
@@ -68,8 +69,10 @@ console.log(now);
 
 
 
-  //-------Home page or Index --------
 
+
+
+  //-------Home page or Index --------
 
   app.get("/", function(req, res){
     //1.Get post image and title from database
@@ -93,16 +96,16 @@ console.log(now);
 
         res.render("index", {row1:first_row,row2:second_row,row3:third_row});
 
-
-
       }
-
       );
       done();
-
     });
-
   });
+
+
+
+
+
 
   //-----Sign in--------
 
@@ -128,20 +131,12 @@ console.log(now);
         } else res.redirect("/sign_in");
 
       });
-
       done();
     });
-
-
-
-
-
-
-
-
-
-
   });
+
+
+
 
 
 
@@ -188,47 +183,62 @@ console.log(now);
           console.log(result.rows);
           res.redirect("/profile");
         }
-
-
       });
       done();
     });
-
   });
+
+
+
+
+
 
   //--------User profile --------
 
   app.get("/profile", function(req, res){
 
-    var username = req.session.user.id;
-    var password = req.session.user.password;
 
-    var query_string = 'SELECT * FROM users WHERE user_name = $1 AND password = $2';
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    } else {
 
+      var username = req.session.user.id;
+      var password = req.session.user.password;
 
-    console.log( username + "  " + password);
+    };
+
+    var query_string_1 = 'SELECT * FROM users WHERE user_name = $1 AND password = $2';
+    var query_string_2 = 'SELECT * FROM post_info WHERE user_name = $1';
+
 
     pool.connect(function(err,client,done){
       if(err) throw err;
 
-      client.query(query_string, [username, password], function(err, result){
+      client.query(query_string_1,[username,password]).then(result_1 =>{
+        //first query
 
-        console.log(result.rows);
-        if(result.rows.length !== 0) {
+        if(result_1.rows.length !==0){
 
-          var user = result.rows[0];
-          res.render("profile", {user:user});
+          var user = result_1.rows[0];
 
         } else res.redirect("/sign_in");
 
-      });
+        client.query(query_string_2,[username]).then(result_2 =>{
+          //second query
+          var posts = result_2.rows;
+          console.log("inside query 2:");
+
+          res.render("profile", {user:user,posts:posts});
+
+        }).catch(e => console.error(e.stack));
+
+      }).catch(e => console.error(e.stack));
 
       done();
     });
-
-
-
   });
+
+
 
 
 
@@ -252,14 +262,16 @@ console.log(now);
         console.log(user);
 
         res.render("user_info", {user:user});
-
-
-
       });
       done();
     });
 
   });
+
+
+
+
+
 
  //-----------about page------------
 
@@ -267,18 +279,121 @@ console.log(now);
     res.render("about");
   });
 
+
+
+
+
   //-----------create post-----------
 
   app.get("/create_post", function(req,res){
-    res.render("create_post");
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    } else {
+
+      var username = req.session.user.id;
+      var password = req.session.user.password;
+
+    };
+
+    var query_string = 'SELECT * FROM users WHERE user_name = $1 AND password = $2';
+
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string, [username,password], function(err,result){
+
+        var user = result.rows[0];
+
+        res.render("create_post", {user:user});
+
+      });
+      done();
+
+    });
+
   });
+
+
+
+
+
+
 
 
   //-----------post request for post creation-----
 
   app.post("/create_post", function(req,res){
 
+    //test image url : https://images.pexels.com/photos/461593/pexels-photo-461593.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    } else {
+
+      var username = req.session.user.id;
+      var password = req.session.user.password;
+
+    };
+
+    var title = req.body.title;
+    var image_1 = req.body.image_1;
+    var image_2 = req.body.image_2;
+    var image_3 = req.body.image_3;
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
+    var is_free = req.body.is_free;
+    var is_private = req.body.is_private;
+    var require_registration = req.body.require_registration;
+    var up_vote = 0;
+    var down_vote = 0;
+    var description = req.body.description;
+
+
+    var query_string_1 = 'SELECT * FROM users WHERE user_name = $1 AND password = $2';
+    var query_string_2 = 'INSERT INTO posts VALUES(DEFAULT,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)';
+    var query_string_3 = 'SELECT post_id from posts where title=$1 AND user_id=$2';
+
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string_1,[username,password]).then(result_1 =>{
+        //first query
+
+        if(result_1.rows.length !==0){
+
+          var user = result_1.rows[0];
+          var user_id = user.user_id;
+
+        } else res.redirect("/sign_in");
+
+        client.query(query_string_2,[user_id, image_1,image_2, image_3,is_private, is_free, require_registration, latitude, longitude, up_vote, down_vote, title, description, now]).then(result_2 =>{
+          //second query
+
+
+          client.query(query_string_3,[title, user_id]).then(result_3 =>{
+            //inside the third query
+
+            var post_id = result_3.rows[0].post_id;
+
+            res.redirect("/post_detail/" + post_id);
+
+          }).catch(e => console.err(e.stack));
+
+        }).catch(e => console.error(e.stack));
+
+      }).catch(e => console.error(e.stack));
+
+      done();
+    });
   });
+
+
+
+
+
 
   //------------log out page------------
 
@@ -286,6 +401,10 @@ console.log(now);
     req.session.destroy();
     res.render("sign_out");
   });
+
+
+
+
 
 
   //-----------Explore-----------
@@ -309,9 +428,13 @@ console.log(now);
       });
       done();
     });
-
-
   });
+
+
+
+
+
+
 
   //------------Post Detail----------
 
@@ -343,18 +466,179 @@ console.log(now);
       }).catch(e => console.error(e.stack));
 
       done();
-
     });
-
-
   });
 
 
+
+
+
+//---------Terms and Condition
   app.get("/terms",function(req,res){
     res.render("terms");
   });
 
 
+
+
+
+  //-----------Password password
+
+  app.get("/password_change",function(req,res){
+
+    res.render("password_change");
+  });
+
+
+
+
+  //-----------post username to get question
+
+  app.post("/password_change",function(req,res){
+
+    var query_string = 'SELECT user_name, question FROM users WHERE user_name=$1';
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string, [req.body.username], function(err,result){
+
+          if(result.rows.length !== 0) {
+
+            var user = result.rows[0];
+
+            res.render("password_question", {user:user});
+
+          } else {
+
+            res.render("password_change");
+
+          };
+      });
+      done();
+    });
+  });
+
+
+
+
+
+
+  //------------Password question
+
+  app.get("/password_question",function(req,res){
+
+    res.render("password_question");
+  });
+
+
+
+
+
+
+  //------------password question post
+
+  app.post("/password_question",function(req,res){
+
+    var user_name = req.body.username;
+    var answer = req.body.answer;
+
+    var query_string = 'SELECT * FROM users WHERE user_name=$1 and answer=$2';
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string, [user_name,answer], function(err,result){
+
+          if(result.rows.length !== 0){
+
+            var current_password= result.rows[0].password;
+
+            var user = {id:user_name, password: current_password};
+            req.session.user = user;
+
+            res.render("new_password", {user:user});
+
+          } else res.redirect("/sign_in");
+
+      });
+
+      done();
+    });
+  });
+
+
+
+
+
+
+
+  //--------------New password
+
+  app.get("/new_password",function(req,res){
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    } else {
+
+      var username = req.session.user.id;
+      var password = req.session.user.password;
+
+      res.render("new_password");
+
+    };
+
+
+  });
+
+
+
+
+
+
+
+
+  //--------------Post new password_change
+
+  app.post("/new_password",function(req,res){
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    } else {
+
+      var username = req.session.user.id;
+
+    };
+
+    var query_string = 'UPDATE users SET password = $1 WHERE user_name = $2';
+
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string, [req.body.new_password,username], function(err,result){
+
+            if(err) console.log(err);
+
+            console.log(result);
+
+
+            var user = {id:username, password: req.body.new_password};
+            req.session.user = user;
+
+            res.redirect("/profile");
+
+
+      });
+
+      done();
+
+    });
+
+
+
+
+  });
 
 
 
