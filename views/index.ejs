@@ -15,65 +15,69 @@
 
   <style type="text/css">
 
+  .navbar-brand{
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+
   #main {
-    margin: 0 13.5%;
-    padding-top:10px;
-    width:1200px;
+
+    margin-top: 10px;
+
+    width:1000px;
 
 
   }
 
   #nav_bar {
-    width:1200px;
+    width:1000px;
+    margin-left: -15px;
     background-color: #8FDBF2;
     border-radius: 10px;
   }
 
-  #first_row{
-    padding-top: 20px;
+  .each_col{
+    margin-top: 8px;
+    margin-left: 2px;
+    position: relative;
   }
 
 
+
    .index_pic {
-     width:395px;
-     height:300px;
+     width:330px;
+     height:280px;
      object-fit: cover;
-   }
-
-   .col {
-     width:400px;
-     margin: 0 0;
-   }
-
-   .row {
-     width:1200px;
    }
 
 
    .up{
      position:absolute;
      font-size: 12px;
-     top:8px;
-     left:34px;
+     top:5px;
+     left:35px;
      color:white;
      z-index: 2;
-
+     color:#B7FF00;
+     font-weight: bold;
    }
 
    .down{
      position:absolute;
      font-size: 12px;
-     top:8px;
-     left:65px;
+     top:23px;
+     left:35px;
      color:white;
      z-index: 2;
+     font-weight: bold;
    }
 
    .fa-sort-up{
      position:absolute;
-     font-size: 60px;
+     font-size: 40px;
      top:1px;
-     left:20px;
+     left:5px;
      opacity: 0.5;
      color:grey;
      z-index: 1;
@@ -81,9 +85,9 @@
 
    .fa-sort-down{
      position:absolute;
-     font-size: 60px;
-     top:-25px;
-     left:50px;
+     font-size: 40px;
+     top: 3px;
+     left:5px;
      opacity: 0.5;
      color:grey;
      z-index: 1;
@@ -94,8 +98,20 @@
      height:40px;
      position: absolute;
      bottom: 43px;
-     left:20px;
+     left:7px;
      object-fit: cover;
+   }
+
+   #user_name{
+     margin-right: 20px;
+   }
+
+   #sign_out_tag{
+     margin-left: 15px;
+   }
+
+   .title{
+     font-weight: bold;
    }
 
 
@@ -140,7 +156,7 @@
           <ul class="navbar-nav">
 
             <li class="nav-item active">
-              <a class="nav-link" href="/explore">Explore <span class="sr-only">(current)</span></a>
+              <a id="explore" class="nav-link" href="/explore/default">Explore <span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item">
@@ -157,44 +173,53 @@
 
           </ul>
         </div>
+          <%var user_name=""%>
+          <%var sign_out=""%>
+          <%if((typeof user) !== "undefined"){ %>
+            <% user_name = user.id%>
+            <% sign_out="Sign Out"%>
+          <%}%>
+          <span id="user_name"><a href="/profile"><%=user_name%></a><a id="sign_out_tag" href="/sign_out"><%=sign_out%></a></span>
     </nav>
 
 
 
-    <div id="first_row" class = "row">
+
+    <div id="first_row" class="row">
       <% row1.forEach(function(post){ %>
 
-      <div class = "col">
-
-
+      <div class="each_col">
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
-        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
+        <p><span class="title"><%= post.title %></span><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
 
       </div>
       <% }); %>
     </div>
 
-    <div class = "row">
+
+
+    <div id="second_row" class="row">
       <% row2.forEach(function(post){ %>
 
-      <div class = "col">
+      <div class="each_col">
 
 
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
-        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
+        <p><span class="title"><%= post.title %></span><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
 
       </div>
       <% }); %>
     </div>
 
-    <div class = "row">
+
+    <div id="third_row" class="row" >
       <% row3.forEach(function(post){ %>
 
-      <div class = "col">
+      <div class="each_col">
 
 
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
-        <p><%= post.title %><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
+        <p><span class="title"><%= post.title %></span><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
 
       </div>
       <% }); %>

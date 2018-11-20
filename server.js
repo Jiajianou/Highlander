@@ -78,7 +78,15 @@ console.log(now);
     //1.Get post image and title from database
     //2.Convert them into javascript objects;
     //3.Pass these objects to the route, and use ejs to display the data.
-    var query_string = 'select * from post_info';
+    //var has_signed_in = false;
+
+    if ((typeof req.session.user) !=="undefined"){
+
+      var user= {id:req.session.user.id};
+    };
+
+
+    var query_string = 'select * from post_info order by up_vote desc';
 
     pool.connect(function(err,client,done){
 
@@ -94,7 +102,7 @@ console.log(now);
         var second_row = posts.slice(3,6);
         var third_row = posts.slice(6,9)
 
-        res.render("index", {row1:first_row,row2:second_row,row3:third_row});
+        res.render("index", {row1:first_row,row2:second_row,row3:third_row,user:user});
 
       }
       );
@@ -250,21 +258,33 @@ console.log(now);
 
     console.log(req.params.id);
 
-    var query_string = 'select * from user_info where user_id = $1';
+    var user_id = req.params.id;
 
-    pool.connect(function(err,client,done){
-      if(err) throw err;
+    var query_string_1 = 'select * from user_info where user_id = $1';
+    var query_string_2 = 'select * from post_info where user_id = $1';
 
-      client.query(query_string, [req.params.id], function(err,result){
 
-        var user = result.rows[0];
+  pool.connect(function(err, client, done){
+    if(err) throw err;
 
-        console.log(user);
+    client.query(query_string_1,[user_id]).then(result_1=>{
 
-        res.render("user_info", {user:user});
-      });
-      done();
-    });
+      var user = result_1.rows[0];
+
+      client.query(query_string_2,[user_id]).then(result_2=>{
+
+        var posts = result_2.rows;
+
+        res.render("user_info", {user:user,posts:posts});
+
+      }).catch(e => console.err(e.stack));
+    }).catch(e => console.err(e.stack));
+
+    done();
+
+  });
+
+
 
   });
 
@@ -348,11 +368,12 @@ console.log(now);
     var require_registration = req.body.require_registration;
     var up_vote = 0;
     var down_vote = 0;
+    var red_flag = 0;
     var description = req.body.description;
 
 
     var query_string_1 = 'SELECT * FROM users WHERE user_name = $1 AND password = $2';
-    var query_string_2 = 'INSERT INTO posts VALUES(DEFAULT,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)';
+    var query_string_2 = 'INSERT INTO posts VALUES(DEFAULT,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)';
     var query_string_3 = 'SELECT post_id from posts where title=$1 AND user_id=$2';
 
 
@@ -369,7 +390,7 @@ console.log(now);
 
         } else res.redirect("/sign_in");
 
-        client.query(query_string_2,[user_id, image_1,image_2, image_3,is_private, is_free, require_registration, latitude, longitude, up_vote, down_vote, title, description, now]).then(result_2 =>{
+        client.query(query_string_2,[user_id, image_1,image_2, image_3,is_private, is_free, require_registration, latitude, longitude, up_vote, down_vote, red_flag, title, description, now]).then(result_2 =>{
           //second query
 
 
@@ -399,7 +420,7 @@ console.log(now);
 
   app.get("/sign_out", function(req,res){
     req.session.destroy();
-    res.render("sign_out");
+    res.redirect("/");
   });
 
 
@@ -409,9 +430,19 @@ console.log(now);
 
   //-----------Explore-----------
 
-  app.get("/explore", function(req, res){
+  app.get("/explore/:type", function(req, res){
 
-    var query_string = 'select * from map_popups';
+
+    if ((typeof req.session.user) !=="undefined"){
+
+      var user= {id:req.session.user.id};
+    };
+
+
+    var map_type = req.params.type;
+
+
+    var query_string = 'select * from post_info';
 
     pool.connect(function(err,client,done){
 
@@ -422,7 +453,7 @@ console.log(now);
         //console.log(result.rows);
         var popups = result.rows;
 
-        res.render("explore", {popups:popups});
+        res.render("explore", {popups:popups, user:user,map_type:map_type});
 
 
       });
@@ -441,11 +472,15 @@ console.log(now);
   app.get("/post_detail/:id", function(req, res){
     //need post details, user name and last active from users, and commenter' name, comment, and timestamp.
 
+    if ((typeof req.session.user) !=="undefined"){
+
+      var user= {id:req.session.user.id};
+    };
+
     var id = req.params.id;
 
     var query_string_1 = 'select * from post_info where post_id = $1';
     var query_string_2 = 'select * from commenter where post_id = $1';
-
 
     pool.connect(function(err,client,done){
       if(err) throw err;
@@ -457,9 +492,33 @@ console.log(now);
         client.query(query_string_2,[id]).then(result_2 =>{
           //second query
           var comments = result_2.rows;
-          console.log("inside query 2:");
 
-          res.render("post_detail", {post:post,comments:comments});
+          if(typeof user !== "undefined"){
+            client.query('SELECT user_id FROM user_info WHERE user_name = $1',[user.id]).then(result_A =>{
+              var user_id = result_A.rows[0].user_id;
+              client.query('SELECT vote_type FROM votes WHERE user_id= $1 AND post_id= $2',[user_id,id]).then(result_B=>{
+
+                if(result_B.rows.length !== 0){
+
+                  var vote = result_B.rows[0].vote_type;
+                  res.render("post_detail", {post:post,comments:comments,user:user,vote:vote});
+
+                } else {
+
+                  res.render("post_detail", {post:post,comments:comments,user:user});
+
+                }
+
+
+              }).catch(e => console.error(e.stack));
+            }).catch(e => console.error(e.stack));
+          } else {
+
+            res.render("post_detail", {post:post,comments:comments,user:user});
+
+          }
+
+
 
         }).catch(e => console.error(e.stack));
 
@@ -468,6 +527,261 @@ console.log(now);
       done();
     });
   });
+
+
+  //--------------post updated
+
+  app.get("/post_update/:id",function(req,res){
+
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    } else {
+
+    var post_id = req.params.id;
+
+
+    };
+
+
+    var query_string_1='SELECT * FROM post_info WHERE post_id = $1';
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string_1, [post_id], function(err,result){
+
+        var post= result.rows[0];
+
+        res.render('post_update', {post:post});
+
+
+      });
+      done();
+    });
+
+
+
+
+
+
+
+  });
+
+  app.post("/post_update",function(req,res){
+
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    } else {
+
+      var username = req.session.user.id;
+      var password = req.session.user.password;
+
+    };
+
+    var post_id = req.body.post_id;
+    var title = req.body.title;
+    var image_1 = req.body.image_1;
+    var image_2 = req.body.image_2;
+    var image_3 = req.body.image_3;
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
+    var is_free = req.body.is_free;
+    var is_private = req.body.is_private;
+    var require_registration = req.body.require_registration;
+    var description = req.body.description;
+    var up_vote = req.body.up_vote;
+    var down_vote= req.body.down_vote;
+    var red_flag= req.body.red_flag;
+    var created = req.body.created;
+
+    var query_string = `UPDATE posts SET (image_1,image_2,image_3,is_private,is_free,require_registration,latitude,longitude,up_vote,down_vote,red_flag,title,description,created)
+                        =($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) WHERE post_id = $15`;
+
+
+
+    pool.connect(function(err,client,done){
+      if(err) throw err;
+
+      client.query(query_string,[image_1,image_2,image_3,is_private,is_free,require_registration,latitude,longitude,up_vote,down_vote,red_flag,title,description,created,post_id],function(result){
+        console.log(result);
+
+        var route = "post_detail/" + post_id;
+        res.redirect(route);
+      });
+
+      done();
+    });
+
+
+  });
+
+
+  app.get("/vote/:info",function(req,res){
+
+    console.log("User made a get request to vote.")
+    var vote_info = req.params.info;
+    var info_list = vote_info.split("-");
+    var user_name = info_list[0];
+    var post_id = parseInt(info_list[1]);
+    var vote = info_list[2];
+
+    var action = "none";
+    var previously_voted ="";
+
+    var query_string_1 ='SELECT user_id FROM user_info WHERE user_name= $1';
+    var query_string_2 ='SELECT * FROM votes WHERE user_id = $1 AND post_id = $2';
+
+    pool.connect(function(err,client,done){
+
+      client.query(query_string_1,[user_name]).then(result_1 =>{
+        //query 1, find user_id by user_name
+        console.log("Query 1 executed. The user's ID number is:");
+        console.log(result_1.rows[0].user_id);
+
+        var user_id = result_1.rows[0].user_id;
+
+        client.query(query_string_2,[user_id,post_id]).then(result_2=>{
+          //query 2, check user_id and post_id pair
+          var query_string_3 = '';
+
+          console.log(result_2.command);
+
+          if(result_2.rows.length !== 0){
+            //the user has already voted previously.
+
+            previously_voted = result_2.rows[0].vote_type;
+            console.log("The user has voted on this post previously");
+
+            if(result_2.rows[0].vote_type === vote){
+
+              console.log(previously_voted);
+              //do nothing.
+              console.log("user voted the same vote");
+
+              query_string_3='SELECT * FROM votes WHERE user_id = $1 AND post_id = $2';
+              var value_list = [user_id,post_id];
+
+
+
+            } else {
+              //construct a query to update the vote table
+              query_string_3='UPDATE votes SET vote_type = $1 WHERE user_id = $2 AND post_id = $3';
+              var value_list = [vote,user_id,post_id];
+              action = "update";
+            }
+
+          } else {
+            //user has not voted on this post yet.
+              console.log("The user has not yet voted on this post.")
+
+              query_string_3='INSERT INTO votes VALUES(DEFAULT,$1,$2,$3,$4)';
+              var value_list = [user_id,post_id,vote,now];
+
+              action = "create";
+
+          };
+
+          client.query(query_string_3,value_list).then(result_3=>{
+            //completed the modification to the votes table.
+            //determine what action to take to update the post table's vote numbers.
+
+            var query_string_4 = "";
+            var value_list_4 = [post_id];
+
+            console.log("this is query 3");
+            console.log(result_3.command);
+            console.log("action taken");
+            console.log(action);
+            console.log("previously voted:", previously_voted);
+
+            if(action === "update"){
+
+              if(vote==="up" && previously_voted ==="down"){
+
+                query_string_4 = 'UPDATE posts SET up_vote=up_vote + 1, down_vote=down_vote -1 WHERE post_id = $1';
+
+              };
+
+              if (vote ==="up" && previously_voted ==="red_flag"){
+
+                query_string_4 = 'UPDATE posts SET up_vote=up_vote + 1,red_flag=red_flag -1 WHERE post_id = $1';
+
+              };
+
+              if (vote ==="down" && previously_voted ==="up"){
+
+                query_string_4 = 'UPDATE posts SET up_vote=up_vote -1, down_vote=down_vote + 1 WHERE post_id = $1';
+
+              };
+
+              if (vote ==="down" && previously_voted === "red_flag"){
+
+                query_string_4 = 'UPDATE posts SET down_vote=down_vote + 1, red_flag=red_flag - 1 WHERE post_id = $1';
+
+              };
+
+              if (vote ==="red_flag" && previously_voted ==="up"){
+
+                query_string_4 = 'UPDATE posts SET up_vote=up_vote - 1, red_flag=red_flag + 1 WHERE post_id = $1';
+
+              };
+
+              if (vote ==="red_flag" && previously_voted ==="down"){
+
+                query_string_4 = 'UPDATE posts SET down_vote=down_vote - 1, red_flag=red_flag + 1 WHERE post_id = $1';
+              };
+
+            };
+
+            if (action === "create"){
+
+
+              if(vote==="up"){
+
+                query_string_4 = 'UPDATE posts SET up_vote=up_vote + 1 WHERE post_id = $1';
+
+              } else if (vote==="down"){
+
+                query_string_4 = 'UPDATE posts SET down_vote=down_vote + 1 WHERE post_id = $1';
+
+              } else if (vote==="red_flag"){
+
+                query_string_4 = 'UPDATE posts SET red_flag=red_flag + 1 WHERE post_id = $1';
+
+              }
+
+            };
+
+            if(action==="none"){
+
+              query_string_4 = 'UPDATE posts SET up_vote=up_vote,down_vote=down_vote,red_flag=red_flag WHERE post_id = $1';
+
+
+            };
+
+            client.query(query_string_4,value_list_4).then(result_4=>{
+
+              console.log("voted");
+              console.log(result_4);
+
+              res.redirect("/post_detail/" + post_id);
+
+
+            }).catch(e => console.error(e.stack));
+          }).catch(e => console.error(e.stack));
+        }).catch(e => console.error(e.stack));
+      }).catch(e => console.error(e.stack));
+
+
+      done();
+    });
+
+  });
+
+
+
 
 
 
@@ -517,6 +831,43 @@ console.log(now);
       });
       done();
     });
+  });
+
+
+  //--------------New comment
+
+
+  app.post("/new_comment",function(req,res){
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    };
+
+    if(req.body.new_comment === ""){
+      res.redirect("/post_detail/" + req.body.post_id);
+    } else {
+
+      pool.connect(function(err,client,done){
+
+        client.query('SELECT user_id FROM user_info WHERE user_name = $1',[req.body.user_name]).then(result_1 =>{
+
+          var user_id = result_1.rows[0].user_id;
+
+          client.query('INSERT INTO comments VALUES(DEFAULT,$1,$2,$3,$4)',[user_id, req.body.post_id, req.body.new_comment, now]).then(result_2=>{
+
+            console.log(result_2);
+
+            res.redirect("/post_detail/" + req.body.post_id);
+
+
+          }).catch(e => console.error(e.stack));
+        }).catch(e => console.error(e.stack));
+
+        done();
+      });
+
+    };
+
   });
 
 

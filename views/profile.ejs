@@ -14,6 +14,11 @@
 
     <style type="text/css">
 
+    .navbar-brand{
+      font-weight: bold;
+      font-size: 30px;
+    }
+
     #main{
       width:800px;
       margin: 0 28%;
@@ -65,12 +70,16 @@
       margin-top: 20px;
       width:800px;
       float:left;
+      border-radius: 10px;
 
       background-color: #DFECF0;
 
     }
 
     #info_row{
+
+      margin-left: 20px;
+      margin-top: 15px;
 
 
 
@@ -101,12 +110,23 @@
 
     #button_group{
 
+      width: 800px;
+      float:left;
+
+      margin-top: 20px;
+      margin-left: 10px;
+
 
     }
 
     .btn-primary{
       width:120px;
       font-size: 11px;
+    }
+
+    #post_title{
+
+      margin-left: 10px;
     }
 
     </style>
@@ -130,7 +150,7 @@
           <ul class="navbar-nav">
 
             <li class="nav-item active">
-              <a class="nav-link" href="/explore">Explore <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/explore/default">Explore <span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item">
@@ -168,7 +188,7 @@
         <% posts.forEach(function(post){ %>
 
           <div class="each_post">
-            <i class="fas fa-edit"></i><a href="/post_detail/<%=post.post_id%>"><img src="<%=post.image_1%>" class="rounded post_pic"/><%=post.title%></a>
+            <a href="/post_update/<%=post.post_id%>"><i class="fas fa-edit"></i></a><a href="/post_detail/<%=post.post_id%>"><img src="<%=post.image_1%>" class="rounded post_pic"/><span id="post_title"><%=post.title%></span></a>
           </div>
 
 
@@ -180,20 +200,24 @@
 
 
 
+    <div id="button_group">
+
+
+
+    <a class="btn btn-primary" href="/create_post" role="button">Create a New Post</a>
+    <a class="btn btn-primary" href="/" role="button">Edit Profile</a>
+    <a class="btn btn-primary" href="/" role="button">Change Password</a>
+
+      </div>
+
+
+
 
 
 
         <div id="left_column">
 
-          <div id="button_group">
 
-
-
-          <a class="btn btn-primary" href="/create_post" role="button">Create a New Post</a>
-          <a class="btn btn-primary" href="/" role="button">Edit Profile</a>
-          <a class="btn btn-primary" href="/" role="button">Change Password</a>
-
-            </div>
 
             <div id="info_row">
 

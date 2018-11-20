@@ -29,80 +29,73 @@
 
     <style type="text/css">
 
-
-    #post_box {
-      width:300px;
-      height:800px;
-      overflow-y: scroll;
+    .navbar-brand{
+      font-weight: bold;
+      font-size: 30px;
     }
 
+
     #main{
+      position: relative;
+      width:1050px;
 
-
-
-
-      width:1400px;
-      margin-left: 8%;
       margin-top: 10px;
     }
 
     #left_column{
       float: left;
 
-
     }
 
     #right_column{
 
       margin-top: 15px;
-      width:380px;
+      width:100px;
       height:700px;
       background-color: #DFECF0;
       border-radius: 10px;
       float: right;
 
-
-
     }
 
     #main_row{
 
-      width:1400px;
+      width:1050px;
 
     }
 
     #nav_bar {
 
       margin: 0 0;
-      width:1400px;
+      width:1020px;
       border-radius: 10px;
       background-color: #8FDBF2;
     }
 
 
-    .post_pic {
-      width:70px;
-      height:45px;
+    #user_name{
+      margin-right: 20px;
+    }
+
+    #sign_out_tag{
+      margin-left: 15px;
+    }
+
+    .map_types{
+      width:80px;
+      height:60px;
+      border-radius: 5px;
       object-fit: cover;
-    }
-
-    .post_info {
       margin-left: 10px;
-      margin-top: 5px;
-      font-size: 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 30ch;
-
+      margin-top: 20px;
     }
 
-    .post_row{
-      width:300px;
-
-
-
+    .map_names{
+      font-size: 12px;
+      margin-left: 11px;
     }
+
+
 
 
     </style>
@@ -131,7 +124,7 @@
         <ul class="navbar-nav">
 
           <li class="nav-item active">
-            <a class="nav-link" href="/explore">Explore <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/explore/default">Explore <span class="sr-only">(current)</span></a>
           </li>
 
           <li class="nav-item">
@@ -148,15 +141,23 @@
 
         </ul>
       </div>
+
+      <%var user_name=""%>
+      <%var sign_out=""%>
+      <%if((typeof user) !== "undefined"){ %>
+        <% user_name = user.id%>
+        <% sign_out="Sign Out"%>
+      <%}%>
+      <span id="user_name"><a href="/profile"><%=user_name%></a><a id="sign_out_tag" href="/sign_out"><%=sign_out%></a></span>
   </nav>
 
 
 
-      <div id="main_row" >
+
 
         <div id = "left_column" >
 
-          <div id="mapid" style="width: 1000px; height: 700px; margin:15px 0;"></div>
+          <div id="mapid" style="width: 900px; height: 700px; margin:15px 0;"></div>
 
         </div>
 
@@ -165,31 +166,15 @@
 
         <div id="right_column" >
 
-          <div id="post_box" >
+          <a href="/explore/default"><img class="map_types" src="https://images.pexels.com/photos/240834/pexels-photo-240834.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"/><span style="margin-left:26px; font-size:12px;">Default</span></a>
 
-            <% popups.forEach(function(popup){ %>
-
-
-
-                  <div class="post_info">
-
-                      <a href="/post_detail/<%-popup.post_id%>"><img src ="<%= popup.image_1%>" class="rounded post_pic"><%= popup.title %></a>
-                  </div>
-
-
-
-
-          <%  }); %>
-
-
-
-
-          </div>
+          <a href="/explore/topo"><img class="map_types" src="https://images.pexels.com/photos/1277018/pexels-photo-1277018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"/><span class="map_names">Topographic</span></a>
+          <a href="/explore/sat"><img class="map_types" src="https://images.pexels.com/photos/41160/australia-continent-aerial-view-geography-41160.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"/><span class="map_names">Satellite View</span></a>
 
         </div>
 
 
-      </div>
+
 
 
 
@@ -206,24 +191,71 @@
 
     <script>
 
+
+      var map_type = <%-JSON.stringify(map_type)%>;
+
       var mymap = L.map('mapid').setView([34.228730, -77.872687], 13);
 
-       // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	     //    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-       //  }).addTo(mymap);
+      console.log(map_type);
 
 
 
-	     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		   maxZoom: 18,
-		     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-			      '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		             id: 'mapbox.streets'
-	              }).addTo(mymap);
+
+      if(map_type === "sat"){
+
+
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}).addTo(mymap);
+
+
+      }
+
+      if(map_type === "default"){
+
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {maxZoom: 18,
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+             '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                  id: 'mapbox.streets'
+                 }).addTo(mymap);
+
+
+      }
+
+      if(map_type === "topo"){
+
+        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {maxZoom: 20,attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+      }).addTo(mymap);
+
+
+      }
+
+
+
+
+
+
+
+
+
+
+
 
 
       var popups = <%-JSON.stringify(popups)%>;
+
+      var pop_description = `<div>
+      <a href="/post_detail/$4"><img src="$1" height="60" width="70"/>
+      <span style="margin-left:5px; font-weight:bold;">$2</span>
+      </a>
+      <p style="overflow-y:scroll;">$3</p>
+      </div>`;
+
+
+
+
+
+
+
 
       popups.forEach(function(popup){
 
@@ -233,8 +265,16 @@
         console.log(latitude);
         console.log(longitude);
 
+        var add_image = pop_description.replace("$1",popup.image_1);
+        var add_title = add_image.replace("$2",popup.title);
+        var add_description =add_title.replace("$3",popup.description);
+        var final = add_description.replace("$4",popup.post_id);
+
+        //L.marker([latitude, longitude]).addTo(mymap)
+          //.bindPopup(popup.title).openPopup();
+
         L.marker([latitude, longitude]).addTo(mymap)
-          .bindPopup(popup.title).openPopup();
+          .bindPopup(final).openPopup();
 
 
 

@@ -37,6 +37,7 @@ create table posts (
   longitude VARCHAR(50),
   up_vote INT,
   down_vote INT,
+  red_flag INT,
   title VARCHAR(100),
   description VARCHAR(1000),
   created VARCHAR(30)
@@ -56,7 +57,7 @@ create table votes(
   vote_id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(user_id),
   post_id INT REFERENCES posts(post_id),
-  is_up_vote boolean,
+  vote_type varchar(10),
   created VARCHAR(30)
 );
 
@@ -64,8 +65,19 @@ create table votes(
 create view thumbnails as select post_id, image_1, title from posts;
 create view map_popups as select post_id, latitude, longitude, image_1, title from posts;
 create view user_info as select user_id, user_name, image, about, created, last_active from users;
-create view post_info as select A.user_id,A.user_name, A.image,B.post_id, B.title, B.image_1, B.image_2, B.image_3, B.is_private,B.is_free,B.require_registration,B.latitude,B.longitude,B.up_vote,B.down_vote,B.description,B.created from users as A, posts as B where A.user_id = B.user_id;
+create view post_info as select A.user_id,A.user_name, A.image,B.post_id, B.title, B.image_1, B.image_2, B.image_3, B.is_private,B.is_free,B.require_registration,B.latitude,B.longitude,B.up_vote,B.down_vote,B.red_flag,B.description,B.created from users as A, posts as B where A.user_id = B.user_id;
 create view commenter as select A.user_id, A.image, A.user_name, B.post_id, B.comment, B.created from users as A, comments as B where A.user_id = B.user_id;
+
+create trigger check_red_flag AFTER UPDATE ON posts FOR EACH ROW EXECUTE PROCEDURE delete_post();
+
+  CREATE OR REPLACE FUNCTION delete_post(id int) RETURNS void AS $$
+
+      BEGIN
+          update posts set title = title where post_id = id;
+      END;
+
+  $$ LANGUAGE plpgsql;
+
 
 
 
