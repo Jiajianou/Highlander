@@ -132,6 +132,7 @@
         font-size: 45pt;
         color: white;
         padding-top: 100px;
+        padding-bottom:10px;
         font-family: Trattatello, fantasy;
     }
 
@@ -164,6 +165,37 @@
         width: 100%;
         margin: 0 auto;
     }
+
+    .h_desc {
+        font-size: 20pt;
+        color: white;
+        font-family: courier new;
+        font-weight: bold;
+
+    }
+
+    .h_join {
+        width: 75%;
+        margin: 0 auto;
+        border: 2pt solid white;
+        font-size: 15pt;
+        color: white;
+        font-family: courier new;
+        padding: 5px;
+        font-weight:bold;
+        transition: 0.3s;
+    }
+
+    .h_join:hover {
+        background: white;
+        color: black;
+        text-decoration: none;
+    }
+
+
+
+
+
 
 
 
@@ -198,7 +230,8 @@
         <div class="container">
             <div>
                 <h1 class="mainHeader">Explore...</h1>
-                    <% include sign_up_form %>
+                <p class="h_desc">Go anywhere with local knowledge</p>
+                <a href="" class="h_join">Find your adventure</a>
             </div>
     </section>
 
@@ -211,7 +244,7 @@
 <br>
 
 <!-- Navigation -->
-<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-white sticky-top ft2" style="transition: top 0.3s;">
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-white sticky-top" style="transition: top 0.3s;">
     <div class="container">
         <a class="navbar-brand center" href="#">Highlander</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse"
