@@ -131,7 +131,7 @@
     .mainHeader{
         font-size: 45pt;
         color: white;
-        padding-top: 200px;
+        padding-top: 100px;
         font-family: Trattatello, fantasy;
     }
 
@@ -147,6 +147,22 @@
         background: transparent;
         position:absolute;
         top: 0;
+    }
+
+    #form{
+      width:300px;
+      margin:10px 0;
+      background-color: #DFECF0;
+      background-color:rgba(223, 236, 240, 0.5);
+      margin-top: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+
+    }
+
+    .join_btn {
+        width: 100%;
+        margin: 0 auto;
     }
 
 
@@ -167,10 +183,6 @@
                     <li class="nav-item">
                         <div class="column">
                             <div class="row">
-                                <a href="#portfolio" class="nav-link topNav" style="color:white">Sign Up</a>
-                            </div>
-                            <div class="row">
-
                                 <a href="#contact" class="nav-link topNav" style="color:white">Sign In</a>
                             </div>
 
@@ -186,6 +198,7 @@
         <div class="container">
             <div>
                 <h1 class="mainHeader">Explore...</h1>
+                    <% include sign_up_form %>
             </div>
     </section>
 
