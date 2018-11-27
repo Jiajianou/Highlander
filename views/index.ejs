@@ -114,11 +114,40 @@
      font-weight: bold;
    }
 
+   .bigBg {
+            /* The image used */
+            background-image: url("http://i63.tinypic.com/okq1xu.jpg");
 
+            /* Center and scale the image nicely */
+            background-position: top;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 0;
+            padding-bottom: 50%;
 
+        }
 
+    .mainHeader{
+        font-size: 45pt;
+        color: white;
+        padding-top: 200px;
+        font-family: Trattatello, fantasy;
+    }
 
+    .explore {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        vertical-align: middle;
 
+    }
+
+    .transpo {
+        background: transparent;
+        position:absolute;
+        top: 0;
+    }
 
 
 
@@ -130,22 +159,74 @@
 
 
 
-
-
-
-
 <body>
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light transparent" style="position:absolute; top:0; right:0">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <div class="column">
+                            <div class="row">
+                                <a href="#portfolio" class="nav-link topNav" style="color:white">Sign Up</a>
+                            </div>
+                            <div class="row">
 
+                                <a href="#contact" class="nav-link topNav" style="color:white">Sign In</a>
+                            </div>
 
+                        </li>
 
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- First View -->
+    <section class="img-responsive bigBg">
+        <div class="container">
+            <div>
+                <h1 class="mainHeader">Explore...</h1>
+            </div>
+    </section>
+
+<!--</div class="row">
+    <div class="column-md-1 explore">
+        <h2>Highlander</h2>
+    </div>
+</div> -->
+
+<br>
+
+<!-- Navigation -->
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-white sticky-top ft2" style="transition: top 0.3s;">
+    <div class="container">
+        <a class="navbar-brand center" href="#">Highlander</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#portfolio" class="nav-link">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Sign In</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
     <div id = "main" class="container">
 
 
 
-
-
-      <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light">
+      <!-- <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="/">Highlander</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -181,6 +262,7 @@
           <%}%>
           <span id="user_name"><a href="/profile"><%=user_name%></a><a id="sign_out_tag" href="/sign_out"><%=sign_out%></a></span>
     </nav>
+-->
 
 
 

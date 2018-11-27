@@ -17,6 +17,9 @@ var app = express();
 app.set("view engine","ejs");
 //Enable body-parser.
 app.use(body_parser.urlencoded({extended: true}));
+//Serves resources from resources folder
+app.use(express.static(__dirname + '/resources'));
+
 
 
 app.use(session(
@@ -35,10 +38,10 @@ app.use(session(
 
 
 var database_config = {
-    user: 'j',
+    user: 'Britton',
     host: 'localhost',
     database: 'highlander',
-    password: 'strong_pass',
+    password: '14SecTOOBS',
     port: 5432
 };
 const pool = new Pool(database_config);
@@ -990,8 +993,6 @@ console.log(now);
 
 
   });
-
-
 
 //--------server listener---------
 
