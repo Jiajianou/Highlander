@@ -35,11 +35,11 @@ app.use(session(
 
 
 var database_config = {
-    user: 'j'|| process.env.DATABASE_USERNAME,
-    host: 'localhost' || process.env.DATABASE_HOST,
-    database: 'highlander' || process.env.DATABASE_NAME,
-    password: 'strong_pass' || process.env.DATABASE_PASSWORD,
-    port: 5432 || process.env.DATABASE_PORT
+    user: 'j'|| DATABASE_USERNAME,
+    host: 'localhost' || DATABASE_HOST,
+    database: 'highlander' || DATABASE_NAME,
+    password: 'strong_pass' || DATABASE_PASSWORD,
+    port: 5432 || DATABASE_PORT
 };
 
 const pool = new Pool(database_config);
