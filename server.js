@@ -34,11 +34,19 @@ app.use(session(
 //-------------------------------------------Database----------------------------------
 
 
+// var database_config = {
+//     user: 'j',
+//     host: 'localhost',
+//     database: 'highlander',
+//     password: 'strong_pass',
+//     port: 5432
+// };
+
 var database_config = {
-    user: 'j',
-    host: 'localhost',
-    database: 'highlander',
-    password: 'strong_pass',
+    user: 'ltpgykhboppagm',
+    host: 'ec2-23-23-253-106.compute-1.amazonaws.com',
+    database: 'dd7toonukbsu6f',
+    password: '424ac7abd173d26f9a0f4ebd1c06c2d3686f9f1d5fefcf51dc5ad1b669a06640',
     port: 5432
 };
 const pool = new Pool(database_config);
