@@ -34,21 +34,14 @@ app.use(session(
 //-------------------------------------------Database----------------------------------
 
 
-// var database_config = {
-//     user: 'j',
-//     host: 'localhost',
-//     database: 'highlander',
-//     password: 'strong_pass',
-//     port: 5432
-// };
-
 var database_config = {
-    user: 'ltpgykhboppagm',
-    host: 'ec2-23-23-253-106.compute-1.amazonaws.com',
-    database: 'dd7toonukbsu6f',
-    password: '424ac7abd173d26f9a0f4ebd1c06c2d3686f9f1d5fefcf51dc5ad1b669a06640',
-    port: 5432
+    user: 'j'|| process.env.DATABASE_USERNAME,
+    host: 'localhost' || process.env.DATABASE_HOST,
+    database: 'highlander' || process.env.DATABASE_NAME,
+    password: 'strong_pass' || process.env.DATABASE_PASSWORD,
+    port: 5432 || process.env.DATABASE_PORT
 };
+
 const pool = new Pool(database_config);
 
 const client = new Client(database_config);
