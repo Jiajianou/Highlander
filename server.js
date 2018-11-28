@@ -933,10 +933,7 @@ console.log(now);
       res.redirect("/sign_in");
     } else {
 
-      var username = req.session.user.id;
-      var password = req.session.user.password;
-
-      res.render("new_password");
+      res.render("new_password", {user:req.session.user});
 
     };
 
