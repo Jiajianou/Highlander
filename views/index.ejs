@@ -192,6 +192,17 @@
         text-decoration: none;
     }
 
+    .logo_img {
+        width: 15%;
+        filter: invert(100%);
+    }
+
+    .logo_img_2nd {
+        filter: invert(0%);
+        width: 15%;
+
+    }
+
   </style>
 
 
@@ -201,10 +212,13 @@
 
 
 <body>
-    <nav id="navbar" class="navbar navbar-expand-lg navbar-light transparent" style="position:absolute; top:0; right:0">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light transparent" style="position:fixed; top:0; right:0">
         <div class="container">
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
+                    <li class="navbar-logo">
+                        <img src="http://i65.tinypic.com/206k3td.png" class="logo_img">
+                    </li>
                     <li class="nav-item">
                         <div class="column">
                             <div class="row">
@@ -249,8 +263,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+                <li class="navbar-brand">
+                    <img src="http://i65.tinypic.com/206k3td.png" class="logo_img_2nd">
+                </li>
                 <li class="nav-item">
-                    <a href="/explore" class="nav-link">Explore</a>
+                    <a href="/explore/default" class="nav-link">Explore</a>
                 </li>
                 <li class="nav-item">
                     <a href="/sign_up" class="nav-link">Sign Up</a>
