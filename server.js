@@ -56,13 +56,7 @@ var time = new Date();
 var now = time.getFullYear() + "-" + time.getMonth() + "-" + time.getDate() + "-" + time.getHours() + "-" + time.getMinutes();
 console.log(now);
 
-// function is_username_taken(username){
-//
-//
-//   if(){
-//
-//   } else return false;
-// }
+
 
 
 //-----------------------------------------------Routes---------------------------------------------
@@ -81,33 +75,31 @@ console.log(now);
     //3.Pass these objects to the route, and use ejs to display the data.
     //var has_signed_in = false;
 
-    if ((typeof req.session.user) !=="undefined"){
+    if ((typeof req.session.user) !=="undefined"){    //If a user has been sucessfully verified, a session is initiated, which means, req.session.user should not be undefined.
 
       var user= {id:req.session.user.id};
     };
 
 
-    var query_string = 'select * from post_info order by up_vote desc';
+    var query_string = 'select * from post_info order by up_vote desc';   //select all posts from the database in decending order.
 
-    pool.connect(function(err,client,done){
+    pool.connect(function(err,client,done){   //start a pool connection.
 
       if(err) throw err;
 
-      client.query(query_string,function(err, result){
-        //inside query callback function:
-        //console.log(typeof result.rows);
+      client.query(query_string,function(err, result){      //check out a client from the pool, then use this client to perform a query task.
 
-        //todo: limit to 9 posts.
-        var posts = result.rows;
-        var first_row = posts.slice(0,3);
+        var posts = result.rows;          //the returned result contains: command, fields, rows, and a few other arrays. The data we want is in the rows array.
+
+        var first_row = posts.slice(0,3);   //break down the rows array into just 9, so we can display them at the index page.
         var second_row = posts.slice(3,6);
         var third_row = posts.slice(6,9)
 
-        res.render("index", {row1:first_row,row2:second_row,row3:third_row,user:user});
+        res.render("index", {row1:first_row,row2:second_row,row3:third_row,user:user});  //when render the index page, express also pass the following javascript objects.
 
       }
       );
-      done();
+      done(); //call done() when client is no longer needed. This will release the client back to the pool.
     });
   });
 
@@ -119,20 +111,27 @@ console.log(now);
   //-----Sign in--------
 
   app.get("/sign_in", function(req, res){
+    //if the user chooses to sign in, express will response with the sign_in.ejs page
     res.render("sign_in");
 
   });
 
   app.post("/sign_in", function(req, res){
 
+    //when the user click the submit button or sign in button, he or she is submitting a post request, which will bring him here.
+
+
+    //execute this query to find a matching user and password pair.
     var query_string = 'SELECT user_name, password FROM users WHERE user_name = $1 AND password = $2';
 
     pool.connect(function(err,client,done){
       if(err) throw err;
 
+      //This query function will take 3 parameters, a query string, an array of values, and a callback function
       client.query(query_string, [req.body.username, req.body.password], function(err, result){
 
-        console.log(result.rows);
+        //if the rows array is not empty, which means, at least one user is found, do the followings
+        //if not found, redirect the user back to the sign_in page.
         if(result.rows.length !== 0) {
           var current_user = {id:req.body.username, password:req.body.password};
           req.session.user = current_user;
@@ -160,6 +159,9 @@ console.log(now);
   });
 
   app.post("/sign_up", function(req, res){
+
+    //get all the values from the sign up form.
+    //It is not neccessary to create all these variables, as you can simply use req.body.some_name, but it makes it easier to understand.
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
@@ -172,11 +174,9 @@ console.log(now);
 
     req.session.user = new_user;
 
-    var query_string = 'INSERT INTO users VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9)';
+    //$1...$9 these are pg's string substitution.
 
-    console.log("------This is session data------");
-    console.log(req.session.user);
-    console.log("-------End of session data-------");
+    var query_string = 'INSERT INTO users VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9)';
 
     pool.connect(function(err,client,done){
       if(err) throw err;
@@ -184,11 +184,13 @@ console.log(now);
       client.query(query_string, [username, email, password, question, answer, now, now, about, image],  function(err, result){
 
 
+        //if there is an error, redirect the user back to the sign_up form to retry.
         if(err) {
           console.log(err);
           res.render("sign_up");
 
         } else {
+          //otherwise, direct the user to the profile page.
           console.log(result.rows);
           res.redirect("/profile");
         }

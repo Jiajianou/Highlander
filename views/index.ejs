@@ -14,44 +14,30 @@
 
 
   <style type="text/css">
-
   .navbar-brand{
     font-weight: bold;
     font-size: 30px;
   }
-
-
   #main {
-
     margin-top: 10px;
-
     width:1000px;
-
-
   }
-
   #nav_bar {
     width:1000px;
     margin-left: -15px;
     background-color: #8FDBF2;
     border-radius: 10px;
   }
-
   .each_col{
     margin-top: 8px;
     margin-left: 2px;
     position: relative;
   }
-
-
-
    .index_pic {
      width:330px;
      height:280px;
      object-fit: cover;
    }
-
-
    .up{
      position:absolute;
      font-size: 12px;
@@ -62,7 +48,6 @@
      color:#B7FF00;
      font-weight: bold;
    }
-
    .down{
      position:absolute;
      font-size: 12px;
@@ -72,7 +57,6 @@
      z-index: 2;
      font-weight: bold;
    }
-
    .fa-sort-up{
      position:absolute;
      font-size: 40px;
@@ -82,7 +66,6 @@
      color:grey;
      z-index: 1;
    }
-
    .fa-sort-down{
      position:absolute;
      font-size: 40px;
@@ -92,7 +75,6 @@
      color:grey;
      z-index: 1;
    }
-
    .user_pic{
      width:40px;
      height:40px;
@@ -101,27 +83,79 @@
      left:7px;
      object-fit: cover;
    }
-
    #user_name{
      margin-right: 20px;
    }
-
    #sign_out_tag{
      margin-left: 15px;
    }
-
    .title{
      font-weight: bold;
    }
-
-
-
-
-
-
-
-
-
+   .bigBg {
+            /* The image used */
+            background-image: url("http://i63.tinypic.com/okq1xu.jpg");
+            /* Center and scale the image nicely */
+            background-position: top;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 0;
+            padding-bottom: 50%;
+        }
+    .mainHeader{
+        font-size: 45pt;
+        color: white;
+        padding-top: 100px;
+        padding-bottom:10px;
+        font-family: Trattatello, fantasy;
+    }
+    .explore {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .transpo {
+        background: transparent;
+        position:absolute;
+        top: 0;
+    }
+    #form{
+      width:300px;
+      margin:10px 0;
+      background-color: #DFECF0;
+      background-color:rgba(223, 236, 240, 0.5);
+      margin-top: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .join_btn {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .h_desc {
+        font-size: 20pt;
+        color: white;
+        font-family: courier new;
+        font-weight: bold;
+    }
+    .h_join {
+        width: 75%;
+        margin: 0 auto;
+        border: 2pt solid white;
+        font-size: 15pt;
+        color: white;
+        font-family: courier new;
+        padding: 5px;
+        font-weight:bold;
+        transition: 0.3s;
+    }
+    .h_join:hover {
+        background: white;
+        color: black;
+        text-decoration: none;
+    }
   </style>
 
 
@@ -130,47 +164,92 @@
 
 
 
-
-
-
-
 <body>
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light transparent" style="position:absolute; top:0; right:0">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <div class="column">
+                            <div class="row">
+                                <a href="/sign_in" class="nav-link topNav" style="color:white; font-family: courier new; font-weight:bold;">Sign In</a>
+                            </div>
 
+                        </li>
 
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <!-- First View -->
+    <section class="img-responsive bigBg">
+        <div class="container">
+            <div>
+                <h1 class="mainHeader">Explore...</h1>
+                <br>
+                <p class="h_desc">Go anywhere with local knowledge</p>
+                <br>
+                <a href="/sign_up" class="h_join">Join us</a>
+            </div>
+    </section>
+
+<!--</div class="row">
+    <div class="column-md-1 explore">
+        <h2>Highlander</h2>
+    </div>
+</div> -->
+
+<br>
+
+<!-- Navigation -->
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-white sticky-top" style="transition: top 0.3s;">
+    <div class="container">
+        <a class="navbar-brand" href="/">Highlander</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="/explore" class="nav-link">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/sign_up" class="nav-link">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/sign_in" class="nav-link">Sign In</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
     <div id = "main" class="container">
 
 
 
-
-
-      <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light">
+      <!-- <nav id="nav_bar" class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="/">Highlander</a>
-
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-
             <li class="nav-item active">
               <a id="explore" class="nav-link" href="/explore/default">Explore <span class="sr-only">(current)</span></a>
             </li>
-
             <li class="nav-item">
               <a class="nav-link" href="/sign_in">Sign In</a>
             </li>
-
             <li class="nav-item">
               <a class="nav-link" href="/sign_up">Sign Up</a>
             </li>
-
             <li class="nav-item">
               <a class="nav-link" href="/about">About</a>
             </li>
-
           </ul>
         </div>
           <%var user_name=""%>
@@ -181,17 +260,16 @@
           <%}%>
           <span id="user_name"><a href="/profile"><%=user_name%></a><a id="sign_out_tag" href="/sign_out"><%=sign_out%></a></span>
     </nav>
+-->
 
 
 
 
     <div id="first_row" class="row">
       <% row1.forEach(function(post){ %>
-
       <div class="each_col">
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
         <p><span class="title"><%= post.title %></span><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
-
       </div>
       <% }); %>
     </div>
@@ -200,13 +278,9 @@
 
     <div id="second_row" class="row">
       <% row2.forEach(function(post){ %>
-
       <div class="each_col">
-
-
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
         <p><span class="title"><%= post.title %></span><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
-
       </div>
       <% }); %>
     </div>
@@ -214,13 +288,9 @@
 
     <div id="third_row" class="row" >
       <% row3.forEach(function(post){ %>
-
       <div class="each_col">
-
-
         <a href="/post_detail/<%=post.post_id%>"><img src="<%= post.image_1 %>" class="rounded index_pic"></a>
         <p><span class="title"><%= post.title %></span><span class="up"><%= post.up_vote %></span><span class="down"><%= post.down_vote %></span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i><a href="/user_info/<%=post.user_id%>"><img src="<%=post.image%>" class="rounded-circle user_pic"/></a></p>
-
       </div>
       <% }); %>
     </div>
