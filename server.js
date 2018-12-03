@@ -249,6 +249,49 @@ console.log(now);
     });
   });
 
+  //-------get profile update
+
+  app.get("/update_profile",function(req, res){
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    };
+
+    pool.connect(function(err,client,done){
+      client.query('SELECT * FROM users WHERE user_name = $1',[req.session.user.id],function(err,result){
+        var user = result.rows[0];
+        res.render("update_profile",{user:user});
+      });
+      done();
+    });
+
+  });
+
+  app.post("/update_profile", function(req,res){
+
+
+    if ((typeof req.session.user)==="undefined"){
+      res.redirect("/sign_in");
+    } else {
+      var current_user = req.session.user.id;
+      var image = req.body.image;
+      var email = req.body.email;
+      var question = req.body.question;
+      var answer = req.body.answer;
+      var about = req.body.about;
+    }
+
+    pool.connect(function(err,client,done){
+      client.query('UPDATE users SET image=$1, email=$2, question=$3, answer=$4, about=$5 WHERE user_name = $6',[image,email,question,answer,about,current_user],function(err,result){
+        var user = result.rows[0];
+        res.redirect("/profile");
+      });
+      done();
+    });
+
+
+
+  });
 
 
 

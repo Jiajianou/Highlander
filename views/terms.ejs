@@ -61,6 +61,16 @@
       font-size: 20px;
     }
 
+    #message{
+
+      display:none;
+      width:1000px;
+      margin-left: 15px;
+      color:red;
+    }
+
+
+
 
 
 
@@ -219,6 +229,10 @@
 
           </div>
 
+          <div>
+            <p id="message">You must agree to all of our terms and conditions before signing up.</p>
+          </div>
+
         </div>
 
         </div>
@@ -230,7 +244,7 @@
           </div>
 
           <div class="col">
-            <a class="btn btn-primary" href="/sign_up_finally" role="button">Continue to Sign Up</a>
+            <a id="continue_button" class="btn btn-primary" href="#" role="button">Continue to Sign Up</a>
           </div>
 
 
@@ -242,8 +256,38 @@
 
         <script>
 
-          var checkbox_1 = document.getElementById("checkbox_1").checked;
-          console.log(checkbox_1);
+
+
+            function all_checked(){
+              var checkbox_1 = document.getElementById("checkbox_1").checked;
+              var checkbox_2 = document.getElementById("checkbox_2").checked;
+              var checkbox_3 = document.getElementById("checkbox_3").checked;
+              var checkbox_4 = document.getElementById("checkbox_4").checked;
+              var checkbox_5 = document.getElementById("checkbox_5").checked;
+              var checkbox_6 = document.getElementById("checkbox_6").checked;
+
+              if(checkbox_1 && checkbox_2 && checkbox_3 && checkbox_4 && checkbox_5 && checkbox_6){
+                return true;
+              } else return false;
+
+            }
+
+            document.getElementById("continue_button").onclick =function(){
+              document.getElementById("continue_button").setAttribute("href",where_to(all_checked()));
+              if(all_checked()){
+                document.getElementById("message").style.display="none";
+              } else {
+                document.getElementById("message").style.display="block";
+              }
+            }
+
+            function where_to(all_checked){
+              if(all_checked){
+                return "/sign_up_finally";
+              } else return "#";
+            }
+
+
 
         </script>
 

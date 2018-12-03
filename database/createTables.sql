@@ -70,10 +70,13 @@ create view commenter as select A.user_id, A.image, A.user_name, B.post_id, B.co
 
 create trigger check_red_flag AFTER UPDATE ON posts FOR EACH ROW EXECUTE PROCEDURE delete_post();
 
-  CREATE OR REPLACE FUNCTION delete_post(id int) RETURNS void AS $$
+  CREATE OR REPLACE FUNCTION delete_post() RETURNS void AS $$
 
       BEGIN
-          update posts set title = title where post_id = id;
+          IF NEW.red_flag > (OLD.up_vote * 3) THEN
+          DELETE FROM posts;
+          END IF;
+
       END;
 
   $$ LANGUAGE plpgsql;
