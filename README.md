@@ -1,3 +1,5 @@
+# IMPORTANT NOTICE: This project was created as a university project and there has not been any additional development done to it. Please take that in consideration when you are viewing the code. Thanks. - Oct 7 2020.
+
 # Highlander
 This is a web-based platform that allows outdoor adventurers to explore unique adventure spots around the globe.
 
